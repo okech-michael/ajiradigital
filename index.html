@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ajira Digital Kisii university</title>
+<style>
+  :root{
+    --green:#2cc30d;    /* primary green */
+    --blue:#d41b1b;     /* primary blue */
+    --accent:#0b4685;   /* dark accent/optional black */
+    --muted:#f3f6f9;
+    --kisii-bg: <img src="thumbnails/kisii university.jpeg">; /* replace with real Kisii University photo */
+    --max-width:1100px;
+    --gap:18px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0; color:#0b1b2b; background:#fff; -webkit-font-smoothing:antialiased}
+  a{color:inherit; text-decoration:none}
+  header{
+    position:fixed; top:0; left:0; right:0; height:64px; display:flex; align-items:center;
+    justify-content:space-between; padding:0 20px; background:linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+    backdrop-filter: blur(6px); border-bottom:1px solid rgba(10,10,10,0.04); z-index:50;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--accent)}
+  .brand .logo{
+    width:42px; height:42px; border-radius:8px;
+    background:linear-gradient(135deg,var(--green),var(--blue)); display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:800;
+  }
+
+  nav{display:flex; gap:12px; align-items:center}
+  nav a{padding:8px 12px; border-radius:8px; font-weight:600; color:var(--accent)}
+  nav a.active{background:linear-gradient(90deg,var(--green),var(--blue)); color:white; box-shadow:0 6px 18px rgba(10,50,80,0.08)}
+
+  main{padding-top:84px; max-width:var(--max-width); margin:0 auto; padding-left:20px; padding-right:20px}
+
+  /* landing */
+  .landing{
+    min-height:78vh; display:flex; align-items:center; justify-content:center; position:relative;
+    color:white; border-radius:12px; overflow:hidden; box-shadow:0 10px 40px rgba(17, 141, 30, 0.08);
+    background-image: var(--kisii-bg);
+    background-size:cover; background-position:center;
+  }
+  .landing::after{
+    content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(2,10,24,0.55));
+  }
+  .landing-inner{position:relative; z-index:2; width:100%; max-width:1100px; padding:36px; display:flex; gap:24px; align-items:center; justify-content:space-between}
+  .landing-left{max-width:46%}
+  .landing h1{margin:0; font-size:34px; line-height:1.05}
+  .landing p{margin-top:12px; opacity:0.95}
+
+  /* pentagon buttons */
+  .pentagon-grid{display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:center}
+  .pentagon{
+    width:120px; height:120px; display:flex; align-items:center; justify-content:center; text-align:center;
+    clip-path: polygon(50% 0%, 95% 35%, 78% 90%, 22% 90%, 5% 35%);
+    background:linear-gradient(180deg,var(--muted),white);
+    border:3px solid rgba(255,255,255,0.12); cursor:pointer; transition:transform .18s ease, box-shadow .18s;
+    flex-direction:column; gap:6px; padding:10px; color:var(--accent); font-weight:700;
+    box-shadow:0 8px 20px rgba(5,20,40,0.06);
+  }
+  .pentagon:hover{transform:translateY(-6px) scale(1.02)}
+  .pent-icon{font-size:22px; display:block; margin-top:4px}
+  .pent-label{font-size:13px}
+
+  /* sections common */
+  section{padding:40px 0}
+  .section-title{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px}
+  .card{background:white; border-radius:12px; padding:16px; box-shadow:0 8px 28px rgba(20,30,50,0.04); border:1px solid rgba(10,10,10,0.03)}
+
+  /* impact stories carousel */
+  .stories-wrap{position:relative}
+  .stories{
+    display:flex; gap:14px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:8px;
+  }
+  .story{
+    min-width:280px; height:160px; background:linear-gradient(180deg,var(--muted),#fff); border-radius:10px; padding:12px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.04); display:flex; flex-direction:column; gap:8px;
+  }
+  .story h3{margin:0; font-size:16px}
+  .story p{margin:0; font-size:13px; color:#254050; opacity:0.95}
+
+  .story-nav {position:absolute; top:50%; right:8px; transform:translateY(-50%); display:flex; flex-direction:column; gap:8px}
+  .story-nav button{background:white; border-radius:8px; border:none; padding:8px; box-shadow:0 6px 14px rgba(10,20,30,0.06); cursor:pointer}
+
+  /* services */
+  .services-grid{display:grid; grid-template-columns:1fr 320px; gap:18px}
+  .trainings-list, .jobs-list{display:flex; flex-direction:column; gap:10px}
+  .slot{background:#fff; border-radius:10px; padding:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid rgba(10,10,10,0.03)}
+  .add-btn{padding:8px 12px; border-radius:8px; background:linear-gradient(90deg,var(--green),var(--blue)); color:white; border:none; cursor:pointer}
+
+  /* leaders */
+  .leaders{display:flex; flex-direction:column; gap:12px}
+  .leader{
+    display:flex; gap:12px; align-items:center; background:white; padding:12px; border-radius:10px;
+    box-shadow:0 8px 20px rgba(5,10,20,0.04); border:1px solid rgba(10,10,10,0.03);
+  }
+  .leader .info{flex:1}
+  .leader .photo{width:110px; height:110px; border-radius:8px; object-fit:cover; background:#eee; flex-shrink:0}
+
+  /* footer */
+  footer{margin-top:24px; padding:24px 20px; background:linear-gradient(180deg,#e9f3f6, #f7fbff); border-top:1px solid rgba(10,10,10,0.03)}
+  .footer-inner{max-width:var(--max-width); margin:0 auto; display:flex; gap:18px; align-items:flex-start; justify-content:space-between}
+  .quick-links{display:flex; flex-direction:column; gap:6px}
+
+  /* small screens */
+  @media (max-width:900px){
+    .landing-inner{flex-direction:column; align-items:flex-start}
+    .landing-left{max-width:100%}
+    .services-grid{grid-template-columns:1fr}
+    nav{display:none}
+  }
+
+  /* utilities */
+  .hidden{display:none !important}
+  .muted{color:#5b6b73}
+  .center{display:flex; align-items:center; justify-content:center}
+  button{font-weight:700}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand" aria-hidden="false">
+    <div class="logo">AJ</div>
+    <div>
+      <div style="font-size:14px">KISII UNIVERSITY</div>
+      <div style="font-size:12px; opacity:0.75">AJIRA DIGITAL CLUB</div>
+    </div>
+  </div>
+
+  <nav aria-label="Main navigation">
+    <a href="#home" class="nav-link active" data-target="home">Home</a>
+    <a href="#about" class="nav-link" data-target="about">About</a>
+    <a href="#impact" class="nav-link" data-target="impact">Impact Stories</a>
+    <a href="#services" class="nav-link" data-target="services">Services</a>
+    <a href="#leaders" class="nav-link" data-target="leaders">Leaders Board</a>
+    <a href="#contact" class="nav-link" data-target="contact">Contact</a>
+    <a href="#register" class="nav-link" data-target="register">Register</a>
+  </nav>
+</header>
+
+<main>
+  <!-- Home / Landing (id=home) -->
+  <section id="home" class="landing" role="region" aria-label="Landing">
+    <div class="landing-inner card">
+      <div class="landing-left">
+        <h1>Welcome Ajira Digital Club — Kisii Students Hub</h1>
+        <p>Connecting students with trainings, jobs, mentorships, and real impact stories. Use the quick buttons to explore.</p>
+        <div style="margin-top:18px" class="pentagon-grid" role="list" aria-label="Quick action buttons">
+          <div class="pentagon" tabindex="0" data-goto="register" title="Registration">
+            <span class="pent-icon">📝</span>
+            <span class="pent-label">Registration</span>
+          </div>
+          <div class="pentagon" tabindex="0" data-goto="services" title="Services Offered">
+            <span class="pent-icon">🧭</span>
+            <span class="pent-label">Services Offered</span>
+          </div>
+          <div class="pentagon" tabindex="0" data-goto="impact" title="Impact Stories">
+            <span class="pent-icon">⭐</span>
+            <span class="pent-label">Impact Stories</span>
+          </div>
+          <div class="pentagon" tabindex="0" data-goto="services" title="Trainings & Calendar">
+            <span class="pent-icon">📆</span>
+            <span class="pent-label">Trainings & Calendar</span>
+          </div>
+          <div class="pentagon" tabindex="0" data-goto="services" title="Jobs & Job Sites">
+            <span class="pent-icon">💼</span>
+            <span class="pent-label">Jobs & Job Sites</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-right center" style="min-width:260px">
+        <div class="card" style="padding:14px; width:320px; text-align:left">
+          <h3 style="margin:0 0 8px 0">Quick Links</h3>
+          <div class="muted" style="display:flex; flex-direction:column; gap:8px;">
+            <a href="https://www.ajira.go.ke" target="_blank">Ajira National Portal</a>
+            <a href="https://students.kisiiuniversity.ac.ke" target="_blank">Kisii University Student Portal</a>
+            <a href="#register" class="nav-link" data-target="register">Registration Page</a>
+            <a href="#contact" class="nav-link" data-target="contact">Contact Information</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" role="region">
+    <div class="section-title">
+      <h2>About</h2>
+      <div class="muted">Purpose, mission and quick note.</div>
+    </div>
+    <div class="card">
+      <p><strong>Ajira Digital club</strong> We connect Kisii University students to trainings, mentorships, freelance jobs and share real impact stories from students and alumni. The portal focuses on skills, employability, and real outcomes.</p>
+    </div>
+  </section>
+
+  <!-- Impact Stories -->
+  <section id="impact" role="region" aria-label="Impact Stories">
+    <div class="section-title">
+      <h2>Impact Stories</h2>
+      <div class="muted">Real experiences from community members</div>
+    </div>
+
+    <div class="card stories-wrap">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <div>
+          <strong>Featured Stories</strong>
+          <div class="muted" style="font-size:13px">Swipe or use arrows to navigate</div>
+        </div>
+        <div>
+          <button id="prevStory" title="Previous story" class="add-btn" style="background:transparent; color:var(--accent); border:1px solid rgba(10,10,10,0.06)">◀</button>
+          <button id="nextStory" title="Next story" class="add-btn" style="background:transparent; color:var(--accent); border:1px solid rgba(10,10,10,0.06)">▶</button>
+        </div>
+      </div>
+
+      <div id="stories" class="stories" tabindex="0" aria-label="Impact stories scroll region">
+        <!-- 10 sample story slots -->
+        <div class="story" data-index="1">
+          <h3>From Classrooms to Clients</h3>
+          <p>Silvia used our training to secure freelance virtual assistance jobs earning some cash as a student.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="2">
+          <h3>Transcription Hustle</h3>
+          <p>Michael started offering transcription services and now handles 3 clients weekly.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="3">
+          <h3>Web Development</h3>
+          <p>Joshua Ogalo from ajira club kisii university founded his own software company, shipped a small e-commerce site.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="4">
+          <h3>Digital Marketing Win</h3>
+          <p>John grew a local shop’s sales by 30% using social media campaigns.</p>
+          <small class="muted">— Kisii, 2023</small>
+        </div>
+
+        <div class="story" data-index="5">
+          <h3>Virtual Assistance Breakthrough</h3>
+          <p>Alice began as a VA and now manages scheduling & admin for two companies.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="6">
+          <h3>Student leader</h3>
+          <p>Sharon became the SIST representative at kisii university after gaininig leadership skills from ajira club</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="7">
+          <h3>Student leader</h3>
+          <p>Samuel became the general secreatary of kisii university after gaininig leadership skills from ajira club</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="8">
+          <h3>Data Entry Consistency</h3>
+          <p>Clara secured long-term data entry gigs through job platforms listed in our site.</p>
+          <small class="muted">— Kisii, 2023</small>
+        </div>
+
+        <div class="story" data-index="9">
+          <h3>Mentorship Outcomes</h3>
+          <p>Mentorship changed Paul's approach to freelancing giving him higher-paying clients.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+        <div class="story" data-index="10">
+          <h3>Group Training Project</h3>
+          <p>A group project became a portfolio item that got them interview calls.</p>
+          <small class="muted">— Kisii, 2025</small>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Offered -->
+  <section id="services" role="region" aria-label="Services Offered">
+    <div class="section-title">
+      <h2>Services Offered</h2>
+      <div class="muted">Trainings, jobs and where to find them</div>
+    </div>
+
+    <div class="services-grid">
+      <div class="card">
+        <h3 style="margin-top:0">Trainings & Mentorships</h3>
+        <div class="muted" style="margin-bottom:8px">Slots to add, edit or remove trainings</div>
+        <div id="trainingsList" class="trainings-list" aria-live="polite">
+          <!-- initial training slots -->
+          <div class="slot"><div>Android App Development (Java) — 12 weeks</div><button class="add-btn" data-action="remove-training">Remove</button></div>
+          <div class="slot"><div>Web Development (HTML/CSS/JS) — 8 weeks</div><button class="add-btn" data-action="remove-training">Remove</button></div>
+          <div class="slot"><div>Digital Marketing Basics — 6 weeks</div><button class="add-btn" data-action="remove-training">Remove</button></div>
+        </div>
+        <div style="margin-top:12px; display:flex; gap:10px">
+          <input id="newTraining" placeholder="New training (title & duration)" style="flex:1; padding:10px; border-radius:8px; border:1px solid #e6eef6"/>
+          <button id="addTraining" class="add-btn">Add Training</button>
+        </div>
+
+        <hr style="margin:18px 0; border:none; border-top:1px solid rgba(10,10,10,0.03)">
+
+        <h3>Jobs (categories)</h3>
+        <div class="jobs-list" style="margin-top:8px">
+          <div class="slot"><div>Writing (articles, copywriting)</div></div>
+          <div class="slot"><div>Web Development (front-end, full-stack)</div></div>
+          <div class="slot"><div>Transcription</div></div>
+          <div class="slot"><div>Digital Marketing</div></div>
+          <div class="slot"><div>Virtual Assistance</div></div>
+          <div class="slot"><div>Data Entry</div></div>
+          <div class="slot"><div>Translation</div></div>
+          <div class="slot"><div>Social Media Management</div></div>
+        </div>
+      </div>
+
+      <aside class="card" aria-label="Job sites">
+        <h4 style="margin-top:0">Job Sites & Platforms</h4>
+        <div class="muted" style="margin-bottom:8px">Where to look for these jobs:</div>
+        <div class="quick-links">
+          <a href="https://www.upwork.com" target="_blank">Upwork</a>
+          <a href="https://www.freelancer.com" target="_blank">Freelancer</a>
+          <a href="https://www.fiverr.com" target="_blank">Fiverr</a>
+          <a href="https://www.ajira.go.ke" target="_blank">Ajira Digital</a>
+          <a href="https://www.remote.co" target="_blank">Remote.co</a>
+          <a href="https://www.proz.com" target="_blank">ProZ (translation)</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Leaders Board -->
+  <section id="leaders" role="region" aria-label="Leaders board">
+    <div class="section-title">
+      <h2>Leaders Board</h2>
+      <div class="muted">Top community contributors</div>
+    </div>
+
+    <div class="card leaders" id="leadersList">
+      <!-- 9 slots -->
+      <!-- Each leader: info left, photo right -->
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">1. Emmanuel Okumu</h3>
+          <p class="muted" style="margin:6px 0 0 0">CHAIRMAN- Emmanuel Okumu, a fourth year Software Engineering student and Welfare Officer of the club, leverages Ajira for comprehensive tech skills. Certified in Virtual Assistance, Digital Marketing, and more, he's also part of AWS re/Start Cloud Practitioner Cohort 8. Actively exploring freelancing on Upwork and Remotask, Emmanuel's commitment extends to fostering the well-being of club members.
+
+</p>
+        </div>
+        <img class="photo" src="thumbnails/emo.jpg" alt="okumu">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">2. Evelyne Njambi</h3>
+          <p class="muted" style="margin:6px 0 0 0">TRAINER - I’m a passionate Software Engineering student in my second year, driven by curiosity and creativity in solving real-world problems through technology. Beyond academics, I’m a tech enthusiast who enjoys exploring new tools, frameworks, and innovations that push the boundaries of what technology can achieve.
+
+I also serve as a trainer and mentor, where I share knowledge, guide others, and empower individuals to build digital skills that open up new opportunities. My interests span across software development, backend engineering, web technologies, and emerging innovations in AI and cloud computing.
+
+What sets me apart is my commitment to continuous learning, teamwork, and using technology as a tool for impact. I believe in not just building systems, but building solutions that truly matter.
+
+When I’m not coding or training, I enjoy engaging with tech communities, exploring creative projects, and learning new ways to grow both personally and professionally.
+
+I code, I teach, I learn — and I thrive at the intersection of technology and people.</p>
+        </div>
+        <img class="photo" src="thumbnails/eve.jpg" alt="njambi">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">3. Silvia Aluoch</h3>
+          <p class="muted" style="margin:6px 0 0 0"> SOCIETY REPRESENTATIVE - Sylvia Aluoch, from School of SASS, stands out for her exceptional contributions in breaking down the digital divide between SIST and SASS. Despite her background in the arts, she has become one of the top-earning freelancers in the school. Sylvia's passion for reading and learning extends beyond the boundaries of her field. Her involvement goes beyond earning; Sylvia serves on the Advisory Council of the club, bringing a unique perspective to the table. Sylvia Aluoch's diverse talents and dedication play a crucial role in fostering collaboration and knowledge exchange within the club.
+
+</p>
+        </div>
+        <img class="photo" src="thumbnails/SA.jpg" alt="silvia">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">4.Michael Onyango</h3>
+          <p class="muted" style="margin:6px 0 0 0">VICE CHAIR & PUBLICITY SEC - I am Michael Onyango, a driven software engineer who believes in the power of technology to transform lives. My journey is fueled by a passion to inspire and equip young people with digital skills that open doors to limitless opportunities.</p>
+        </div>
+        <img class="photo" src="thumbnails/mike.jpg" alt="onyango">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">5.Tabitha Tatu</h3>
+          <p class="muted" style="margin:6px 0 0 0"> TREASURE - Tabitha Tatu, a third year Software Engineering student and treasure, demonstrates a keen dedication to both her academic journey and leadership responsibilities. Embracing the challenges of Software Engineering coursework, Tabitha's role as Secretary highlights her organizational prowess, contributing to the overall success of the club. Her enthusiasm and proactive engagement bode well for her continued growth within the academic and leadership spheres.
+
+</p>
+        </div>
+        <img class="photo" src="thumbnails/tt.jpg" alt="tatu">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">6. Brian Kipkorir</h3>
+          <p class="muted" style="margin:6px 0 0 0">GENERAL SEC - Brian Kikorir Rotuk, a third-year student in SIST, serves as the club's General Secretary.  Brian brings enthusiasm and effective communication skills to enhance the club's visibility. His role underscores his commitment to promoting the club's activities within the university community</p>
+        </div>
+        <img class="photo" src="thumbnails/bkr.jpg" alt="brian">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">7. Emmanuel Ojiambo</h3>
+          <p class="muted" style="margin:6px 0 0 0">ORGANISING SEC - </p>
+        </div>
+        <img class="photo" src="https://via.placeholder.com/150?text=Eunice" alt="Ojiambo">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">8. Karen Muriithi</h3>
+          <p class="muted" style="margin:6px 0 0 0">Welfare - </p>
+        </div>
+        <img class="photo" src="https://via.placeholder.com/150?text=Kelvin" alt="karen">
+      </div>
+
+      <div class="leader">
+        <div class="info">
+          <h3 style="margin:0">??</h3>
+          <p class="muted" style="margin:6px 0 0 0">publicity sec</p>
+        </div>
+        <img class="photo" src="https://via.placeholder.com/150?text=Grace" alt="??">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact / Register -->
+  <section id="contact" role="region" aria-label="Contact">
+    <div class="section-title">
+      <h2>Contact</h2>
+      <div class="muted">Reach out for support or partnerships</div>
+    </div>
+    <div class="card">
+      <p><strong>Email:</strong> info@kisiiuniversityajiraclub.com</p>
+      <p><strong>Phone:</strong> +254713855011</p>
+      <p><strong>Address:</strong> 40200 - kisii</p>
+    </div>
+  </section>
+
+  <section id="register" role="region" aria-label="Register">
+    <div class="section-title">
+      <h2>Register</h2>
+      <div class="muted">Join our community</div>
+    </div>
+    <div class="card" style="display:grid; gap:12px; max-width:680px">
+      <input placeholder="Full name" style="padding:12px; border-radius:8px; border:1px solid #e6eef6" id="regName">
+      <input placeholder="Email" style="padding:12px; border-radius:8px; border:1px solid #e6eef6" id="regEmail">
+      <input placeholder="Phone" style="padding:12px; border-radius:8px; border:1px solid #e6eef6" id="regPhone">
+      <select id="regInterest" style="padding:12px; border-radius:8px; border:1px solid #e6eef6">
+        <option value="">Select interest</option>
+        <option>Trainings & Mentorships</option>
+        <option>Jobs & Freelance</option>
+        <option>Community & Events</option>
+      </select>
+      <div style="display:flex; gap:10px">
+        <button id="submitReg" class="add-btn">Submit Registration</button>
+        <button id="clearReg" class="add-btn" style="background:transparent; color:var(--accent); border:1px solid rgba(10,10,10,0.06)">Clear</button>
+      </div>
+      <div id="regMsg" class="muted" style="font-size:13px"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div style="font-weight:800">Quick Links</div>
+        <div class="quick-links">
+          <a href="https://www.ajira.go.ke" target="_blank">Ajira National Portal</a>
+          <a href="https://students.kisiiuniversity.ac.ke" target="_blank">Kisii University Student Portal</a>
+          <a href="#register" class="nav-link" data-target="register">Registration</a>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-weight:800">Contact</div>
+        <div class="muted" style="margin-top:8px">Email: info@kisiiuniversityajiraclub.com<br>Phone: +254 713855011</div>
+      </div>
+
+      <div style="text-align:right">
+        <div style="font-weight:800">Follow</div>
+        <div class="muted" style="margin-top:8px">Social channels coming soon, stay tuned!</div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+/*
+ Single-file SPA logic:
+  - Navigation between sections using JS (show/hide via anchor hash or custom)
+  - Pentagons navigate to sections via data-goto
+  - Impact stories horizontal scroll + arrows
+  - Add training dynamic slot
+  - Simple register form (local UI feedback)
+*/
+
+// --- Navigation: show/hide sections (basic hash + active link)
+const navLinks = document.querySelectorAll('.nav-link');
+function activateTarget(targetId){
+  // scroll to section smoothly
+  const el = document.getElementById(targetId);
+  if(!el) return;
+  // update active link
+  navLinks.forEach(a => a.classList.toggle('active', a.dataset.target === targetId));
+  // smooth scroll to section
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// attach nav link click
+navLinks.forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const t = a.dataset.target;
+    activateTarget(t);
+    // update hash without jump
+    history.replaceState(null, '', '#' + t);
+  });
+});
+
+// pentagon click handlers
+document.querySelectorAll('.pentagon').forEach(p => {
+  p.addEventListener('click', () => {
+    const dest = p.dataset.goto;
+    if(dest) activateTarget(dest);
+  });
+  // keyboard accessible
+  p.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      p.click();
+    }
+  })
+});
+
+// On load, if hash present, navigate
+window.addEventListener('load', () => {
+  const h = (location.hash || '').replace('#','');
+  if(h) activateTarget(h);
+});
+
+// Impact stories horizontal scroll
+const stories = document.getElementById('stories');
+document.getElementById('prevStory').addEventListener('click', () => {
+  stories.scrollBy({left:-320, behavior:'smooth'});
+});
+document.getElementById('nextStory').addEventListener('click', () => {
+  stories.scrollBy({left:320, behavior:'smooth'});
+});
+// enable dragging on stories for touch/desktop
+let isDown=false, startX, scrollLeft;
+stories.addEventListener('mousedown', e=>{
+  isDown=true; stories.classList.add('active'); startX=e.pageX - stories.offsetLeft; scrollLeft=stories.scrollLeft;
+});
+stories.addEventListener('mouseleave', ()=> isDown=false);
+stories.addEventListener('mouseup', ()=> isDown=false);
+stories.addEventListener('mousemove', (e)=>{
+  if(!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - stories.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  stories.scrollLeft = scrollLeft - walk;
+});
+
+// Add training logic (simple)
+const addTrainingBtn = document.getElementById('addTraining');
+addTrainingBtn.addEventListener('click', () => {
+  const val = document.getElementById('newTraining').value.trim();
+  if(!val) return alert('Please type training name & duration.');
+  const container = document.getElementById('trainingsList');
+  const slot = document.createElement('div');
+  slot.className = 'slot';
+  slot.innerHTML = `<div>${escapeHtml(val)}</div><button class="add-btn" data-action="remove-training">Remove</button>`;
+  container.appendChild(slot);
+  document.getElementById('newTraining').value = '';
+});
+
+// Remove training using event delegation
+document.getElementById('trainingsList').addEventListener('click', (e)=>{
+  const action = e.target.dataset.action;
+  if(action === 'remove-training'){
+    const slot = e.target.closest('.slot');
+    slot?.remove();
+  }
+});
+
+// Register simple local submit
+document.getElementById('submitReg').addEventListener('click', ()=>{
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const interest = document.getElementById('regInterest').value;
+  if(!name || !email || !interest) { document.getElementById('regMsg').textContent = 'Please fill all fields.'; return; }
+  document.getElementById('regMsg').textContent = 'Thanks ' + name.split(' ')[0] + '! Registration submitted (demo).';
+  // In production: send to backend / API
+});
+
+// Clear registration
+document.getElementById('clearReg').addEventListener('click', ()=>{
+  document.getElementById('regName').value = '';
+  document.getElementById('regEmail').value = '';
+  document.getElementById('regPhone').value = '';
+  document.getElementById('regInterest').value = '';
+  document.getElementById('regMsg').textContent = '';
+});
+
+// tiny escape util
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// keyboard nav: left/right for stories when focused
+stories.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight') stories.scrollBy({left:320, behavior:'smooth'});
+  if(e.key === 'ArrowLeft') stories.scrollBy({left:-320, behavior:'smooth'});
+});
+
+// Accessibility: focus outlines
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Tab') document.body.classList.add('show-focus');
+});
+</script>
+</body>
+</html>
